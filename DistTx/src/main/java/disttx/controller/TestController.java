@@ -23,4 +23,16 @@ public class TestController {
 		}
 		return str;
 	}
+	@RequestMapping("/addUser")
+	@ResponseBody
+	public String addUser(String username, String userid, String desc) {
+		String str = "something wrong";
+		try {
+			testService.addUser(username, userid, desc);
+			str = "success";
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
 }
