@@ -1,0 +1,2 @@
+{"id":"169.254.77.165.tm155082797989600001","wasCommitted":true,"participants":[{"uri":"169.254.77.165.tm1","state":"COMMITTING","expires":1550827989969,"resourceName":"druidXADS1"}]}
+{"id":"169.254.77.165.tm155082797989600001","wasCommitted":true,"participants":[{"uri":"169.254.77.165.tm1","state":"TERMINATED","expires":1550827989979,"resourceName":"druidXADS1"}]}
