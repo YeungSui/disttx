@@ -23,19 +23,20 @@ import oracle.sql.TIMESTAMP;
 public class TestService {
 	public String testconn() throws SQLException {
 		String str = "nothing";
-		Connection conn1 = getDataSource1().getConnection();
-		Statement stmt1 = conn1.createStatement();
-		ResultSet rs = stmt1.executeQuery("select * from user_details where user_id=200");
-		if(rs.next()) {
-			str = rs.getString(2);
-		}
-		conn1.close();
 		Connection conn2 = getDataSource2().getConnection();
 		PreparedStatement stmt2 = conn2.prepareStatement("insert into test_log(id, logtime, threadinfo) values(?,?,?)");
 		stmt2.setString(1, UUID.randomUUID().toString().replaceAll("-", ""));
 		stmt2.setTimestamp(2, new Timestamp(new Date().getTime()));
 		stmt2.setString(3, ""+Thread.currentThread().getId());
 		stmt2.executeUpdate();
+		conn2.close();
+		Connection conn1 = getDataSource1().getConnection();
+		Statement stmt1 = conn1.createStatement();
+		ResultSet rs = stmt1.executeQuery("select * from user_detail where user_id=200");
+		if(rs.next()) {
+			str = rs.getString(2);
+		}
+		conn1.close();
 		return str;
 	}
 	public void addUser(String username, String userid, String desc) throws SQLException {
