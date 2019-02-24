@@ -46,12 +46,12 @@ public class DataSourceConfiguration {
 	 	ds.setMinPoolSize(10);
 	 	return ds;
 	 }
-	 @Bean(name="druidDs2")
+	 @Bean("druidDs2")
 	 public DruidXADataSource createXADataSource2() throws SQLException {
 	 	DruidXADataSource ds = new DruidXADataSource();
 	 	ds.setUsername("kpuser");
 	 	ds.setPassword("hugo");
-	 	ds.setDriverClassName("oracle.driver.jdbc.OracleDriver");
+	 	ds.setDriverClassName("oracle.jdbc.driver.OracleDriver");
 	 	ds.setUrl("jdbc:oracle:thin:@localhost:1521/orcl");
 	 	druidCommonConfig(ds);
 	 	return ds;
