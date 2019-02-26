@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+	<persistence-unit name="PU" transaction-type="JTA">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<!-- 引入关联的实体,分别有使用class/mapping-file/jar-file几种方式,
+		它们各自用于直接引入entity class/通过hbm xml扫描entity class/通过指定jar扫描里面的entity class 
+		-->
+		<class>disttx.model.UserDetails</class>
+		<class>disttx.model.TestLog</class>
+		<class>disttx.model.TeamDetails</class>
+		
+		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+		<validation-mode>NONE</validation-mode>
+		<properties>			
+			<!-- 是否格式化SQL -->
+			<property name="hibernate.format_sql" value="false" />
+			<!-- 配置每次批量提交记录数 -->
+			<property name="hibernate.jdbc.batch_size" value="25" />
+			<!-- 配置每次Fetch记录数 -->
+			<property name="hibernate.jdbc.fetch_size" value="50" />
+			<!-- 设置验证模式 -->
+			<property name="javax.persistence.validation.mode" value="DDL" />
+			<!-- 指定Hibernate回话管理类型有jta/tread两种选择 -->
+			<property name="hibernate.current_session_context_class" value="jta"/> 
+			<!-- 配置缓存策略 -->
+		</properties>
+	</persistence-unit>
+</persistence>

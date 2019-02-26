@@ -16,10 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import disttx.utils.AppContextUtils;
-import oracle.sql.TIMESTAMP;
 
 @Service
-@Transactional()
+@Transactional
 public class TestService {
 	public String testconn() throws SQLException {
 		String str = "nothing";
@@ -29,13 +28,16 @@ public class TestService {
 		stmt2.setTimestamp(2, new Timestamp(new Date().getTime()));
 		stmt2.setString(3, ""+Thread.currentThread().getId());
 		stmt2.executeUpdate();
+		stmt2.close();
 		conn2.close();
 		Connection conn1 = getDataSource1().getConnection();
 		Statement stmt1 = conn1.createStatement();
-		ResultSet rs = stmt1.executeQuery("select * from user_detail where user_id=200");
+		ResultSet rs = stmt1.executeQuery("select * from user_details where user_id=200");
 		if(rs.next()) {
 			str = rs.getString(2);
 		}
+		rs.close();
+		stmt1.close();
 		conn1.close();
 		return str;
 	}
