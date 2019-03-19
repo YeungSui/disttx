@@ -1,4 +1,4 @@
-package disttx.utils;
+package disttx.generic.utils;
 
 public class DateUtils {
 

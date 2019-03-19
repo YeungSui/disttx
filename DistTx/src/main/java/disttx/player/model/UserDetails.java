@@ -1,4 +1,4 @@
-package disttx.model;
+package disttx.player.model;
 
 import java.io.Serializable;
 import java.util.Date;

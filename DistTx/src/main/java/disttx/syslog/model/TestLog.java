@@ -1,4 +1,4 @@
-package disttx.model;
+package disttx.syslog.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -7,6 +7,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name="test_log")
@@ -22,14 +25,12 @@ public class TestLog implements Serializable{
 	public void setId(String id) {
 		this.id = id;
 	}
-	@Column(name="log_time")
 	public Timestamp getLogTime() {
 		return logTime;
 	}
 	public void setLogTime(Timestamp logTime) {
 		this.logTime = logTime;
 	}
-	@Column(name="thread_info")
 	public String getThreadInfo() {
 		return threadInfo;
 	}
