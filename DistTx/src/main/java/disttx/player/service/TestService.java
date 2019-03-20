@@ -16,6 +16,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import disttx.club.model.TeamDetails;
+import disttx.club.repository.TeamDetailsDao;
 import disttx.generic.utils.AppContextUtils;
 import disttx.generic.utils.DataSourceUtils;
 import disttx.player.model.UserDetails;
@@ -24,23 +26,33 @@ import disttx.syslog.model.TestLog;
 import disttx.syslog.repository.TestLogDao;
 
 @Service
-@Transactional(transactionManager="xatx")
+@Transactional("transactionManager")
 public class TestService {
 	@Autowired
 	private UserDetailsDao userDetailsDao;
 	@Autowired
 	private TestLogDao testLogDao;
-	@Transactional
-	public String testConn(UserDetails ud, TestLog tl) {
+	@Autowired
+	private TeamDetailsDao clubDao;
+	
+	public String testConn(UserDetails ud, TestLog tl, TeamDetails td) {
 		String result = "success";
+		userDetailsDao.save(ud);
+		DataSourceUtils.useDataSource("kwanpaang",true);
+		tl.setLogTime(new Timestamp(new Date().getTime()));
+		testLogDao.save(tl);
+		DataSourceUtils.useDataSource("barhbe");
+		clubDao.save(td);
+		return result;
+	}
+	public void addTestLog(TestLog tl) {
 		DataSourceUtils.useDataSource("kwanpaang");
 		tl.setLogTime(new Timestamp(new Date().getTime()));
 		testLogDao.save(tl);
-		return result;
 	}
 	public String getLogInfo(String id) {
 		String result = "nothing";
-		DataSourceUtils.useDataSource("kwanpaang");
+		DataSourceUtils.useDataSource("kwanpaang",true);
 		TestLog tl = testLogDao.findById(id);
 		if(tl != null) {
 			result = "id:"+tl.getId()+" time:"+tl.getLogTime()+" threadNo:"+tl.getThreadInfo();
@@ -97,4 +109,21 @@ public class TestService {
 //		}
 //		return null;
 //	}
+	public String getUserInfo(Long id) {
+		UserDetails ud = userDetailsDao.findById(id);
+		if(ud != null) {
+			return "User with id: "+ud.getUserId()+" named "+ud.getUserName()+" has been found.";
+		} else {
+			return "Cannot find user with id: "+id;
+		}
+	}
+	public String getClubInfo(String id) {
+		DataSourceUtils.useDataSource("barhbe",true);
+		TeamDetails td = clubDao.findById(id);
+		if(td != null) {
+			return "Club with id "+td.getId()+" named "+td.getTeamName()+" has been found";
+		} else {
+			return "Cannot find club with id "+id;
+		}
+	}
 }

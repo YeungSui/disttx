@@ -11,10 +11,10 @@ import com.atomikos.icatch.jta.UserTransactionManager;
 
 @Configuration
 public class JtaConfiguration {
-	@Bean(name="xatx")
-	public JtaTransactionManager regTx() {
-		UserTransactionManager utxm = new UserTransactionManager();
-		UserTransaction utx = new UserTransactionImp();
-		return new JtaTransactionManager(utx, utxm);
-	}
+//	@Bean(name="xatx")
+//	public JtaTransactionManager regTx() {
+//		UserTransactionManager utxm = new UserTransactionManager();
+//		UserTransaction utx = new UserTransactionImp();
+//		return new JtaTransactionManager(utx, utxm);
+//	}
 }

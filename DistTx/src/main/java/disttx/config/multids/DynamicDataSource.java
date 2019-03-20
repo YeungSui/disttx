@@ -3,6 +3,7 @@ package disttx.config.multids;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Queue;
 
 import javax.sql.DataSource;
 
@@ -17,23 +18,23 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 	
 	@Override
 	protected Object determineCurrentLookupKey() {
-		String dsName = DBContext.get();
-		if(dsName == null) {
+		Queue<String> dsList = DBContext.get();
+		if(dsList == null || dsList.peek() == null) {
 			return DEFAULT_DATABASE;
 		}
+		String dsName = dsList.poll();
 		selectDataSource(dsName);
 		return dsName;
 	}
 	@SuppressWarnings("unchecked")
 	private void selectDataSource(String dsName) {
-		if("barhbe".equals(dsName)) {
-			return;
-		}
-		if("goodgoods".equals(dsName) && dsMap.get("goodgoods") == null) {
-			dsMap.put(dsName,initBarhbe());
+		if("barhbe".equals(dsName) && dsMap.get("barhbe") == null) {
+			dsMap.put(dsName, initBarhbe());
 		}
 		else if("kwanpaang".equals(dsName) && dsMap.get("kwanpaang") == null) {
 			dsMap.put(dsName,initKwanPaang());
+		} else {
+			return;
 		}
 		this.setTargetDataSources(dsMap);
 		this.afterPropertiesSet();
